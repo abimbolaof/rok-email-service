@@ -44,7 +44,7 @@ public class AsyncMessageService {
                 new ThreadPoolExecutor(2, maxPoolSize, 10, TimeUnit.SECONDS, jobQueue);
     }
 
-    public void process(PostMessage msg) throws ApiException {
+    public void process(PostMessage msg) {
 		executorService.execute(() -> {
 			try {
 				Message message = new Message();
