@@ -1,7 +1,10 @@
 package com.sonofiroko.email.service;
 
+import com.sonofiroko.email.model.ApiException;
 import com.sonofiroko.email.model.Message;
+import com.sonofiroko.email.model.dto.PostMessage;
 import com.sonofiroko.email.types.MessageFormat;
+import com.sonofiroko.email.types.MessageTemplateType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,7 @@ import java.util.concurrent.*;
  **/
 @Service
 @Scope("singleton")
-public class AsyncMessageService<K extends Message> {
+public class AsyncMessageService {
 
     private final BlockingQueue<Runnable> jobQueue;
     private final ExecutorService executorService;
@@ -36,18 +39,28 @@ public class AsyncMessageService<K extends Message> {
     @Autowired
     public AsyncMessageService(@Value("${service.messaging.job.queue_size}") int queueSize,
                                @Value("${service.messaging.max_pool_size}") int maxPoolSize){
-        jobQueue = new ArrayBlockingQueue<Runnable>(queueSize);
+        jobQueue = new ArrayBlockingQueue<>(queueSize);
         executorService =
                 new ThreadPoolExecutor(2, maxPoolSize, 10, TimeUnit.SECONDS, jobQueue);
     }
 
-	public void send(K object) {
-        executorService.execute(() -> {
-            sendMessage(object);
-        });
+    public void process(PostMessage msg) throws ApiException {
+		executorService.execute(() -> {
+			try {
+				Message message = new Message();
+				message.setFrom(msg.getFrom());
+				message.setTo(msg.getTo());
+				message.setSubject(msg.getSubject());
+				message.setTemplateType(MessageTemplateType.valueOf(msg.getType()));
+				MessageTemplateProvider.newInstance().setValues(msg.getValues()).apply(message);
+				sendMessage(message);
+			} catch (ApiException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
-	private void sendMessage(K object) {
+	private void sendMessage(Message object) {
 		if (object.getMessageFormat().equals(MessageFormat.EMAIL)) {
 			try {
 				emailMessageService.send(object);

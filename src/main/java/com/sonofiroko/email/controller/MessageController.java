@@ -18,17 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
     @Autowired
-    private AsyncMessageService<Message> service;
+    private AsyncMessageService service;
 
     @PostMapping(value = "/message")
     public void send(@RequestBody PostMessage msg) throws ApiException {
-        Message message = new Message();
-        message.setFrom(msg.getFrom());
-        message.setTo(msg.getTo());
-        message.setSubject(msg.getSubject());
-        message.setTemplateType(MessageTemplateType.valueOf(msg.getType()));
-        MessageTemplateProvider.newInstance().setValues(msg.getValues()).apply(message);
-
-        service.send(message);
+        service.process(msg);
     }
 }

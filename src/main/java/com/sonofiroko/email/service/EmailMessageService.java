@@ -28,10 +28,10 @@ public class EmailMessageService implements MessageService<Message>{
     private final int SMTP_PORT;
 
     @Autowired
-    EmailMessageService(@Value("aws.smtp.username") String username,
-                        @Value("aws.smtp.password") String password,
-                        @Value("aws.smtp.host") String host,
-                        @Value("aws.smtp.port") int port) {
+    EmailMessageService(@Value("${aws.smtp.username}") String username,
+                        @Value("${aws.smtp.password}") String password,
+                        @Value("${aws.smtp.host}") String host,
+                        @Value("${aws.smtp.port}") int port) {
         SMTP_USERNAME = username;
         SMTP_PASSWORD = password;
         SMTP_HOST = host;
