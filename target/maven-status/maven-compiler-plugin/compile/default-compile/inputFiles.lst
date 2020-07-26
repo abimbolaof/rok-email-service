@@ -8,7 +8,9 @@
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/MessageService.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/Message.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/dto/PostMessage.java
+/Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/ApplicationContextHolder.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/controller/MessageController.java
+/Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/SQSManager.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/types/MessageTemplateType.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/dto/ApiResponse.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/ApiException.java

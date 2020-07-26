@@ -48,10 +48,9 @@ public class AsyncMessageService {
 		executorService.execute(() -> {
 			try {
 				Message message = new Message();
-				message.setFrom(msg.getFrom());
 				message.setTo(msg.getTo());
-				message.setSubject(msg.getSubject());
 				message.setTemplateType(MessageTemplateType.valueOf(msg.getType()));
+				message.setSubject(message.getTemplateType().getTitle());
 				MessageTemplateProvider.newInstance().setValues(msg.getValues()).apply(message);
 				sendMessage(message);
 			} catch (ApiException e) {

@@ -8,22 +8,15 @@ import com.sonofiroko.email.types.MessageTemplateType;
  **/
 public class Message {
 
-	protected String from;
+	private final static String FROM_ADDRESS = System.getenv("EMAIL_FROM_ADDRESS");
+
+	protected String from = FROM_ADDRESS;
 	protected String to;
 	protected String body;
 	protected String subject;
 	private MessageTemplateType templateType;
 
 	protected MessageFormat messageFormat = MessageFormat.EMAIL;
-
-	public Message(){}
-
-	public Message(String from, String to, MessageTemplateType templateType) {
-		this.from = from;
-		this.to = to;
-		this.templateType = templateType;
-		this.subject = templateType.getTitle();
-	}
 
 	public String getFrom() {
 		return from;
