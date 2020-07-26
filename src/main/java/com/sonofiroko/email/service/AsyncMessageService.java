@@ -54,7 +54,7 @@ public class AsyncMessageService {
 				Message message = new Message();
 				message.setFrom(fromAddress);
 				message.setTo(msg.getTo());
-				message.setTemplateType(MessageTemplateType.fromName(msg.getType()));
+				message.setTemplateType(MessageTemplateType.fromName(msg.getTemplateName()));
 				message.setSubject(message.getTemplateType().getTitle());
 				MessageTemplateProvider.newInstance().setValues(msg.getValues()).apply(message);
 				sendMessage(message);

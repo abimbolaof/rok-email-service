@@ -6,7 +6,7 @@ public class PostMessage {
     private String from;
     private String to;
     private String subject;
-    private String type;
+    private String templateName;
     private Map<String, String> values;
 
     public String getFrom() {
@@ -33,12 +33,12 @@ public class PostMessage {
         this.subject = subject;
     }
 
-    public String getType() {
-        return type;
+    public String getTemplateName() {
+        return templateName;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
     public Map<String, String> getValues() {
