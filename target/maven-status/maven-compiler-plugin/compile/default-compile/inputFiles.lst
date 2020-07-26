@@ -1,6 +1,7 @@
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/types/MessageFormat.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/AsyncMessageService.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/controller/ControllerAdvice.java
+/Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/types/MessageCallback.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/util/Objects.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/MainApplication.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/MessageTemplateProvider.java

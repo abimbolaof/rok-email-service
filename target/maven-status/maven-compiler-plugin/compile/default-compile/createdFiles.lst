@@ -9,6 +9,7 @@ com/sonofiroko/email/service/MessageTemplateProvider.class
 com/sonofiroko/email/service/AsyncMessageService.class
 com/sonofiroko/email/types/MessageFormat.class
 com/sonofiroko/email/model/dto/PostMessage.class
+com/sonofiroko/email/types/MessageCallback.class
 com/sonofiroko/email/model/Message.class
 com/sonofiroko/email/model/dto/ApiResponse.class
 com/sonofiroko/email/service/MessageService.class

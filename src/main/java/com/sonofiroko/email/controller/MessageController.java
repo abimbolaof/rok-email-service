@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api")
+//@RestController
+//@RequestMapping("/api")
 public class MessageController {
 
-    @Autowired
-    private AsyncMessageService service;
-
-    @PostMapping(value = "/message")
-    public void send(@RequestBody PostMessage msg) throws ApiException {
-        service.process(msg);
-    }
+//    @Autowired
+//    private AsyncMessageService service;
+//
+//    @PostMapping(value = "/message")
+//    public void send(@RequestBody PostMessage msg) throws ApiException {
+//        service.process(msg);
+//    }
 }

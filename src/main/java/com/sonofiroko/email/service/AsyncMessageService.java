@@ -70,14 +70,14 @@ public class AsyncMessageService {
 		if (object.getMessageFormat().equals(MessageFormat.EMAIL)) {
 			try {
 				emailMessageService.send(object);
-				logger.info("Message Sent.");
+				logger.debug("Message Sent.");
 			} catch (Exception mx) {
 				logger.error(mx.getMessage());
 			}
 		} else if (object.getMessageFormat().equals(MessageFormat.SMS)) {
 			try {
 				smsMessageService.send(object);
-				logger.info("Message Sent.");
+				logger.debug("Message Sent.");
 			} catch (Exception mx) {
 				logger.error(mx.getMessage());
 			}

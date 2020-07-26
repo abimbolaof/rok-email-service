@@ -4,9 +4,7 @@ import com.sonofiroko.email.model.ApiException;
 import com.sonofiroko.email.model.Message;
 import com.sonofiroko.email.types.MessageTemplateType;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -19,10 +17,6 @@ public class MessageTemplateProvider<K extends Message> {
 
 	final private static Map<MessageTemplateType, String> templateMap = new HashMap<>();
 	
-	static {
-		loadTemplates();
-	}
-	
 	private static void loadTemplates(){
 		// Load templates from file system
 				String[] typeNames = MessageTemplateType.getAllNames();
@@ -32,19 +26,16 @@ public class MessageTemplateProvider<K extends Message> {
 
 				for (int i = 0; i < typeNames.length; i++) {
 					String filename = folder + "/" + typeNames[i].toLowerCase() + extension;
-					URL url = classLoader.getResource(filename);
-					if (url != null) {
-						String content = readFileContents(url.getFile());
-						MessageTemplateType type = MessageTemplateType.fromName(typeNames[i]);
-						templateMap.put(type, content);
-					}
+					InputStream is = classLoader.getResourceAsStream(filename);
+					String content = readFileContents(is);
+					MessageTemplateType type = MessageTemplateType.fromName(typeNames[i]);
+					templateMap.put(type, content);
 				}
 	}
-	
-	private static String readFileContents(String file){
+
+	private static String readFileContents(InputStream is){
 		StringBuilder content = new StringBuilder();
-		try (FileReader reader = new FileReader(file);
-				BufferedReader br = new BufferedReader(reader)) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 			String s = "";
 			while ((s = br.readLine()) != null) {
 				content.append(s);
@@ -54,12 +45,29 @@ public class MessageTemplateProvider<K extends Message> {
 		}
 		return new String(content.toString().getBytes(), StandardCharsets.UTF_8);
 	}
+	
+//	private static String readFileContents(String file){
+//		StringBuilder content = new StringBuilder();
+//		try (FileReader reader = new FileReader(file);
+//				BufferedReader br = new BufferedReader(reader)) {
+//			String s = "";
+//			while ((s = br.readLine()) != null) {
+//				content.append(s);
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return new String(content.toString().getBytes(), StandardCharsets.UTF_8);
+//	}
 
 	private Class<?> messageClass;
 	private Map<String, String> values = new HashMap<>();
 	private String templateBody;
 
 	private MessageTemplateProvider() {
+		if (templateMap.size() == 0){
+			loadTemplates();
+		}
 	}
 
 	public static <L extends Message> MessageTemplateProvider<L> newInstance() {
