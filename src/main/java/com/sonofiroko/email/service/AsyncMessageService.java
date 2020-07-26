@@ -3,6 +3,7 @@ package com.sonofiroko.email.service;
 import com.sonofiroko.email.model.ApiException;
 import com.sonofiroko.email.model.Message;
 import com.sonofiroko.email.model.dto.PostMessage;
+import com.sonofiroko.email.types.MessageCallback;
 import com.sonofiroko.email.types.MessageFormat;
 import com.sonofiroko.email.types.MessageTemplateType;
 import org.slf4j.Logger;
@@ -26,6 +27,9 @@ public class AsyncMessageService {
     private final BlockingQueue<Runnable> jobQueue;
     private final ExecutorService executorService;
 
+    @Value("${service.message.address.from}")
+	private String fromAddress;
+
 	@Autowired
 	@Qualifier("emailMessageService")
 	private MessageService<Message> emailMessageService;
@@ -44,17 +48,20 @@ public class AsyncMessageService {
                 new ThreadPoolExecutor(2, maxPoolSize, 10, TimeUnit.SECONDS, jobQueue);
     }
 
-    public void process(PostMessage msg) {
+    public void process(PostMessage msg, final MessageCallback callback) {
 		executorService.execute(() -> {
 			try {
 				Message message = new Message();
+				message.setFrom(fromAddress);
 				message.setTo(msg.getTo());
-				message.setTemplateType(MessageTemplateType.valueOf(msg.getType()));
+				message.setTemplateType(MessageTemplateType.fromName(msg.getType()));
 				message.setSubject(message.getTemplateType().getTitle());
 				MessageTemplateProvider.newInstance().setValues(msg.getValues()).apply(message);
 				sendMessage(message);
+				callback.call(true);
 			} catch (ApiException e) {
 				e.printStackTrace();
+				callback.call(false);
 			}
 		});
 	}

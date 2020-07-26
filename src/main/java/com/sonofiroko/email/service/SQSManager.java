@@ -24,21 +24,28 @@ public class SQSManager {
     @Autowired
     private AsyncMessageService service;
 
+    private final AmazonSQS sqs;
+
+    public SQSManager() {
+        sqs = AmazonSQSClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
+    }
+
     public void start(){
         new Thread(()->{
             isStarted = true;
-            AmazonSQS sqs = AmazonSQSClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
             List<Message> messages = null;
 
             while (PROCESS_MSGS) {
                 messages = sqs.receiveMessage(emailQueueUrl).getMessages();
                 if (messages != null && messages.size() > 0) {
                     for (Message m : messages){
-                        System.out.println(m.getBody());
                         try {
                             PostMessage postMessage = Objects.fromJSON(m.getBody(), PostMessage.class);
-                            service.process(postMessage);
-                            sqs.deleteMessage(emailQueueUrl, m.getReceiptHandle());
+                            service.process(postMessage, passed -> {
+                                if (passed){
+                                    sqs.deleteMessage(emailQueueUrl, m.getReceiptHandle());
+                                }
+                            });
                         } catch (Exception e){
                             e.printStackTrace();
                         }

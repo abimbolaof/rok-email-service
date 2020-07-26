@@ -7,10 +7,7 @@ import com.sonofiroko.email.types.MessageTemplateType;
  * Created By: Olusegun Abimbola Sep 3, 2017
  **/
 public class Message {
-
-	private final static String FROM_ADDRESS = System.getenv("EMAIL_FROM_ADDRESS");
-
-	protected String from = FROM_ADDRESS;
+	protected String from;
 	protected String to;
 	protected String body;
 	protected String subject;
