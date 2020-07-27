@@ -1,13 +1,13 @@
 package com.sonofiroko.email.service;
 
-import com.sonofiroko.email.model.Message;
+import com.sonofiroko.email.model.EmailMessage;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SMSMessageService  implements MessageService<Message> {
+public class SMSMessageService  implements MessageService<EmailMessage> {
 
     @Override
-    public void send(Message object) throws Exception {
+    public void send(EmailMessage object) throws Exception {
 
     }
 }

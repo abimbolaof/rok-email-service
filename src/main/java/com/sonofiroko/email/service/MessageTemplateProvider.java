@@ -1,11 +1,10 @@
 package com.sonofiroko.email.service;
 
 import com.sonofiroko.email.model.ApiException;
-import com.sonofiroko.email.model.Message;
+import com.sonofiroko.email.model.EmailMessage;
 import com.sonofiroko.email.types.MessageTemplateType;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 /**
  * Created By: Olusegun Abimbola Dec 15, 2017
  **/
-public class MessageTemplateProvider<K extends Message> {
+public class MessageTemplateProvider<K extends EmailMessage> {
 
 	final private static Map<MessageTemplateType, String> templateMap = new HashMap<>();
 	
@@ -70,7 +69,7 @@ public class MessageTemplateProvider<K extends Message> {
 		}
 	}
 
-	public static <L extends Message> MessageTemplateProvider<L> newInstance() {
+	public static <L extends EmailMessage> MessageTemplateProvider<L> newInstance() {
 		return new MessageTemplateProvider<L>();
 	}
 
@@ -79,18 +78,18 @@ public class MessageTemplateProvider<K extends Message> {
 		return this;
 	}
 
-	public void apply(K message) throws ApiException {
+	public void apply(K message, MessageTemplateType templateType) throws ApiException {
 		if (values == null)
 			throw new ApiException("Template values are null.");
 
-		templateBody = templateMap.get(message.getTemplateType());
+		templateBody = templateMap.get(templateType);
 		// build message body by substituting the place-holders in the template
 		// body with the supplied values
 		if (templateBody != null) {
 			String token;
 			for (String key : values.keySet()) {
 				token = "[[" + key + "]]";
-				templateBody = templateBody.replace(token, values.get(key));	
+				templateBody = templateBody.replace(token, values.get(key));
 			}
 			message.setBody(templateBody);
 		}

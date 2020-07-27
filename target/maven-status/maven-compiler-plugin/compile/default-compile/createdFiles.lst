@@ -8,11 +8,10 @@ com/sonofiroko/email/controller/ControllerAdvice.class
 com/sonofiroko/email/service/MessageTemplateProvider.class
 com/sonofiroko/email/service/AsyncMessageService.class
 com/sonofiroko/email/types/MessageFormat.class
-com/sonofiroko/email/model/dto/PostMessage.class
 com/sonofiroko/email/types/MessageCallback.class
-com/sonofiroko/email/model/Message.class
 com/sonofiroko/email/model/dto/ApiResponse.class
 com/sonofiroko/email/service/MessageService.class
 com/sonofiroko/email/util/Objects.class
 com/sonofiroko/email/types/MessageTemplateType.class
+com/sonofiroko/email/model/EmailMessage.class
 com/sonofiroko/email/model/ApiException.class

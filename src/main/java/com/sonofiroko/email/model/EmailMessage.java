@@ -1,17 +1,19 @@
 package com.sonofiroko.email.model;
 
 import com.sonofiroko.email.types.MessageFormat;
-import com.sonofiroko.email.types.MessageTemplateType;
+
+import java.util.Map;
 
 /**
  * Created By: Olusegun Abimbola Sep 3, 2017
  **/
-public class Message {
+public class EmailMessage {
 	protected String from;
 	protected String to;
 	protected String body;
 	protected String subject;
-	private MessageTemplateType templateType;
+	private String templateName;
+	private Map<String, String> values;
 
 	protected MessageFormat messageFormat = MessageFormat.EMAIL;
 
@@ -47,12 +49,12 @@ public class Message {
 		this.subject = subject;
 	}
 
-	public MessageTemplateType getTemplateType() {
-		return templateType;
+	public String getTemplateName() {
+		return templateName;
 	}
 
-	public void setTemplateType(MessageTemplateType templateType) {
-		this.templateType = templateType;
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName;
 	}
 
 	public MessageFormat getMessageFormat() {
@@ -63,6 +65,14 @@ public class Message {
 		this.messageFormat = messageFormat;
 	}
 
+	public Map<String, String> getValues() {
+		return values;
+	}
+
+	public void setValues(Map<String, String> values) {
+		this.values = values;
+	}
+
 	@Override
 	public String toString() {
 		return "AbstractMessage{" +
@@ -70,7 +80,7 @@ public class Message {
 				", to='" + to + '\'' +
 				", body='" + body + '\'' +
 				", subject='" + subject + '\'' +
-				", messageTemplateType=" + templateType +
+				", messageTemplateType=" + templateName +
 				", messageFormat=" + messageFormat +
 				'}';
 	}

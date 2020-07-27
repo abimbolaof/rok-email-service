@@ -1,3 +1,4 @@
+/Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/EmailMessage.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/types/MessageFormat.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/AsyncMessageService.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/controller/ControllerAdvice.java
@@ -7,8 +8,6 @@
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/MessageTemplateProvider.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/SMSMessageService.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/MessageService.java
-/Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/Message.java
-/Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/model/dto/PostMessage.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/ApplicationContextHolder.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/controller/MessageController.java
 /Users/sonofiroko/projects/rok-email-service/src/main/java/com/sonofiroko/email/service/SQSManager.java

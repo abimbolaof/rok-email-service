@@ -4,7 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.Message;
-import com.sonofiroko.email.model.dto.PostMessage;
+import com.sonofiroko.email.model.EmailMessage;
 import com.sonofiroko.email.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +40,7 @@ public class SQSManager {
                 if (messages != null && messages.size() > 0) {
                     for (Message m : messages){
                         try {
-                            PostMessage postMessage = Objects.fromJSON(m.getBody(), PostMessage.class);
+                            EmailMessage postMessage = Objects.fromJSON(m.getBody(), EmailMessage.class);
                             service.process(postMessage, passed -> {
                                 if (passed){
                                     sqs.deleteMessage(emailQueueUrl, m.getReceiptHandle());

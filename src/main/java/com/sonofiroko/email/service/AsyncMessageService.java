@@ -1,8 +1,7 @@
 package com.sonofiroko.email.service;
 
 import com.sonofiroko.email.model.ApiException;
-import com.sonofiroko.email.model.Message;
-import com.sonofiroko.email.model.dto.PostMessage;
+import com.sonofiroko.email.model.EmailMessage;
 import com.sonofiroko.email.types.MessageCallback;
 import com.sonofiroko.email.types.MessageFormat;
 import com.sonofiroko.email.types.MessageTemplateType;
@@ -32,11 +31,11 @@ public class AsyncMessageService {
 
 	@Autowired
 	@Qualifier("emailMessageService")
-	private MessageService<Message> emailMessageService;
+	private MessageService<EmailMessage> emailMessageService;
 
 	@Autowired
 	@Qualifier("SMSMessageService")
-	private MessageService<Message> smsMessageService;
+	private MessageService<EmailMessage> smsMessageService;
 
 	static Logger logger = LoggerFactory.getLogger(AsyncMessageService.class.getName());
 
@@ -48,16 +47,16 @@ public class AsyncMessageService {
                 new ThreadPoolExecutor(2, maxPoolSize, 10, TimeUnit.SECONDS, jobQueue);
     }
 
-    public void process(PostMessage msg, final MessageCallback callback) {
+    public void process(EmailMessage msg, final MessageCallback callback) {
 		executorService.execute(() -> {
 			try {
-				Message message = new Message();
-				message.setFrom(fromAddress);
-				message.setTo(msg.getTo());
-				message.setTemplateType(MessageTemplateType.fromName(msg.getTemplateName()));
-				message.setSubject(message.getTemplateType().getTitle());
-				MessageTemplateProvider.newInstance().setValues(msg.getValues()).apply(message);
-				sendMessage(message);
+				MessageTemplateType templateType = MessageTemplateType.fromName(msg.getTemplateName());
+				msg.setSubject(templateType.getTitle());
+				msg.setFrom(fromAddress);
+				MessageTemplateProvider.newInstance()
+						.setValues(msg.getValues())
+						.apply(msg, templateType);
+				sendMessage(msg);
 				callback.call(true);
 			} catch (ApiException e) {
 				e.printStackTrace();
@@ -66,7 +65,7 @@ public class AsyncMessageService {
 		});
 	}
 
-	private void sendMessage(Message object) {
+	private void sendMessage(EmailMessage object) {
 		if (object.getMessageFormat().equals(MessageFormat.EMAIL)) {
 			try {
 				emailMessageService.send(object);

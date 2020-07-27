@@ -1,8 +1,8 @@
 package com.sonofiroko.email.service;
 
-import com.sonofiroko.email.model.Message;
+import com.sonofiroko.email.model.EmailMessage;
 
-public interface MessageService<T extends Message> {
+public interface MessageService<T extends EmailMessage> {
 
     void send(T object) throws Exception;
 }
