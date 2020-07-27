@@ -1,9 +1,8 @@
 package com.sonofiroko.email.service;
 
 import com.sonofiroko.email.model.ApiException;
-import com.sonofiroko.email.model.EmailMessage;
+import com.sonofiroko.email.model.EmailEvent;
 import com.sonofiroko.email.types.MessageCallback;
-import com.sonofiroko.email.types.MessageFormat;
 import com.sonofiroko.email.types.MessageTemplateType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +29,7 @@ public class AsyncMessageService {
 	private String fromAddress;
 
 	@Autowired
-	@Qualifier("emailMessageService")
-	private MessageService<EmailMessage> emailMessageService;
-
-	@Autowired
-	@Qualifier("SMSMessageService")
-	private MessageService<EmailMessage> smsMessageService;
+	private EmailMessageService emailMessageService;
 
 	static Logger logger = LoggerFactory.getLogger(AsyncMessageService.class.getName());
 
@@ -47,7 +41,7 @@ public class AsyncMessageService {
                 new ThreadPoolExecutor(2, maxPoolSize, 10, TimeUnit.SECONDS, jobQueue);
     }
 
-    public void process(EmailMessage msg, final MessageCallback callback) {
+    public void process(EmailEvent msg, final MessageCallback callback) {
 		executorService.execute(() -> {
 			try {
 				MessageTemplateType templateType = MessageTemplateType.fromName(msg.getTemplateName());
@@ -65,21 +59,12 @@ public class AsyncMessageService {
 		});
 	}
 
-	private void sendMessage(EmailMessage object) {
-		if (object.getMessageFormat().equals(MessageFormat.EMAIL)) {
-			try {
-				emailMessageService.send(object);
-				logger.debug("Message Sent.");
-			} catch (Exception mx) {
-				logger.error(mx.getMessage());
-			}
-		} else if (object.getMessageFormat().equals(MessageFormat.SMS)) {
-			try {
-				smsMessageService.send(object);
-				logger.debug("Message Sent.");
-			} catch (Exception mx) {
-				logger.error(mx.getMessage());
-			}
+	private void sendMessage(EmailEvent object) {
+		try {
+			emailMessageService.send(object);
+			logger.debug("Message Sent.");
+		} catch (Exception mx) {
+			logger.error(mx.getMessage());
 		}
 	}
 }

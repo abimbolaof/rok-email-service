@@ -1,7 +1,7 @@
 package com.sonofiroko.email;
 
 import com.sonofiroko.email.service.ApplicationContextHolder;
-import com.sonofiroko.email.service.SQSManager;
+import com.sonofiroko.email.service.SQSListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +19,7 @@ public class MainApplication {
         SpringApplication.run(MainApplication.class, args);
 
         ApplicationContext ctx = ApplicationContextHolder.getCtx();
-        SQSManager sqsManager = ctx.getBean(SQSManager.class);
-        sqsManager.start();
+        SQSListener sqsListener = ctx.getBean(SQSListener.class);
+        sqsListener.start();
     }
 }

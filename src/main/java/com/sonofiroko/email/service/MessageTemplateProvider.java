@@ -1,7 +1,7 @@
 package com.sonofiroko.email.service;
 
 import com.sonofiroko.email.model.ApiException;
-import com.sonofiroko.email.model.EmailMessage;
+import com.sonofiroko.email.model.EmailEvent;
 import com.sonofiroko.email.types.MessageTemplateType;
 
 import java.io.*;
@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created By: Olusegun Abimbola Dec 15, 2017
  **/
-public class MessageTemplateProvider<K extends EmailMessage> {
+public class MessageTemplateProvider<K extends EmailEvent> {
 
 	final private static Map<MessageTemplateType, String> templateMap = new HashMap<>();
 	
@@ -69,7 +69,7 @@ public class MessageTemplateProvider<K extends EmailMessage> {
 		}
 	}
 
-	public static <L extends EmailMessage> MessageTemplateProvider<L> newInstance() {
+	public static <L extends EmailEvent> MessageTemplateProvider<L> newInstance() {
 		return new MessageTemplateProvider<L>();
 	}
 

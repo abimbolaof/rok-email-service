@@ -4,7 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.Message;
-import com.sonofiroko.email.model.EmailMessage;
+import com.sonofiroko.email.model.EmailEvent;
 import com.sonofiroko.email.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SQSManager {
+public class SQSListener {
 
     private static volatile boolean PROCESS_MSGS = true;
     private static volatile boolean isStarted = false;
@@ -26,7 +26,7 @@ public class SQSManager {
 
     private final AmazonSQS sqs;
 
-    public SQSManager() {
+    public SQSListener() {
         sqs = AmazonSQSClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
     }
 
@@ -40,7 +40,7 @@ public class SQSManager {
                 if (messages != null && messages.size() > 0) {
                     for (Message m : messages){
                         try {
-                            EmailMessage postMessage = Objects.fromJSON(m.getBody(), EmailMessage.class);
+                            EmailEvent postMessage = Objects.fromJSON(m.getBody(), EmailEvent.class);
                             service.process(postMessage, passed -> {
                                 if (passed){
                                     sqs.deleteMessage(emailQueueUrl, m.getReceiptHandle());

@@ -1,6 +1,6 @@
 package com.sonofiroko.email.service;
 
-import com.sonofiroko.email.model.EmailMessage;
+import com.sonofiroko.email.model.EmailEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 @Service
-public class EmailMessageService implements MessageService<EmailMessage>{
+public class EmailMessageService {
 
     private final static Logger log = LoggerFactory.getLogger(EmailMessageService.class);
     private Properties props;
@@ -41,15 +41,14 @@ public class EmailMessageService implements MessageService<EmailMessage>{
 
     }
 
-    @Override
-    public void send(EmailMessage emailMessage) throws Exception{
+    public void send(EmailEvent emailEvent) throws Exception{
         try {
             Session session = Session.getDefaultInstance(props);
             MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(emailMessage.getFrom()));
-            msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(emailMessage.getTo()));
-            msg.setSubject(emailMessage.getSubject());
-            msg.setContent(emailMessage.getBody(), "text/html");
+            msg.setFrom(new InternetAddress(emailEvent.getFrom()));
+            msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(emailEvent.getTo()));
+            msg.setSubject(emailEvent.getSubject());
+            msg.setContent(emailEvent.getBody(), "text/html");
 
             Transport transport = session.getTransport();
             transport.connect(HOST, USERNAME, PASSWORD);
