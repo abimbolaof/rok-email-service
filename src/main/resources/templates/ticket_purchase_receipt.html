@@ -1,0 +1,25 @@
+<style>
+    .barcode-img {
+        width: 300px;
+        height: 300px;
+    }
+</style>
+<div id="template-wrapper" style="width: 100%;text-align: left;">
+    <span id="template-greeting">Hello [[user.id]],</span>
+    <h4 id="template-title">Your Reservation for '[[event.name]]'.</h4>
+    <p id="template-body">
+        Congratulations! Your reservation was for "[[event.name]]" was successful.<br/><br/>
+        Please see your ticket details below:<br/><br/>
+        <table>
+        [[ticket.details]]
+        </table>
+    <br/><br/>
+    -----------------------------------<br/>
+    Total Amount: <span style="font-weight: bold;">$[[order.totalAmount]]</span><br/><br/><br/><br/><br/>
+    Thank you for choosing TicketWeave.
+    </p>
+    <br>
+    <div id="template-closing-remarks" style="font-size: x-small;">
+        <h4><i style="color: darkgoldenrod;font-size: small;">TicketWeave &#174;</i></h4>
+    </div>
+</div>
