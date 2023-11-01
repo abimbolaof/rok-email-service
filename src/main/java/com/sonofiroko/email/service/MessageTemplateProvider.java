@@ -60,7 +60,7 @@ public class MessageTemplateProvider<K extends EmailEvent> {
 //	}
 
 	private Class<?> messageClass;
-	private Map<String, String> values = new HashMap<>();
+	private Map<String, String> parameters = new HashMap<>();
 	private String templateBody;
 
 	private MessageTemplateProvider() {
@@ -73,23 +73,23 @@ public class MessageTemplateProvider<K extends EmailEvent> {
 		return new MessageTemplateProvider<L>();
 	}
 
-	public MessageTemplateProvider<K> setValue(String key, String value) {
-		this.values.put(key, value);
+	public MessageTemplateProvider<K> setParameter(String key, String value) {
+		this.parameters.put(key, value);
 		return this;
 	}
 
 	public void apply(K message, MessageTemplateType templateType) throws ApiException {
-		if (values == null)
-			throw new ApiException("Template values are null.");
+		if (parameters == null)
+			throw new ApiException("Template parameters are null.");
 
 		templateBody = templateMap.get(templateType);
 		// build message body by substituting the place-holders in the template
-		// body with the supplied values
+		// body with the supplied parameters
 		if (templateBody != null) {
 			String token;
-			for (String key : values.keySet()) {
+			for (String key : parameters.keySet()) {
 				token = "[[" + key + "]]";
-				templateBody = templateBody.replace(token, values.get(key));
+				templateBody = templateBody.replace(token, parameters.get(key));
 			}
 			message.setBody(templateBody);
 		}
@@ -99,12 +99,12 @@ public class MessageTemplateProvider<K extends EmailEvent> {
 		return messageClass;
 	}
 
-	public Map<String, String> getValues() {
-		return values;
+	public Map<String, String> getParameters() {
+		return parameters;
 	}
 
-	public MessageTemplateProvider<K> setValues(Map<String, String> values) {
-		this.values = values;
+	public MessageTemplateProvider<K> setParameters(Map<String, String> parameters) {
+		this.parameters = parameters;
 		return this;
 	}
 
