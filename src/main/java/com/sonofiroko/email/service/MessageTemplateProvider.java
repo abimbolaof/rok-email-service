@@ -59,7 +59,6 @@ public class MessageTemplateProvider<K extends EmailEvent> {
 //		return new String(content.toString().getBytes(), StandardCharsets.UTF_8);
 //	}
 
-	private Class<?> messageClass;
 	private Map<String, String> parameters = new HashMap<>();
 	private String templateBody;
 
@@ -93,10 +92,6 @@ public class MessageTemplateProvider<K extends EmailEvent> {
 			}
 			message.setBody(templateBody);
 		}
-	}
-
-	public Class<?> getMessageClass() {
-		return messageClass;
 	}
 
 	public Map<String, String> getParameters() {
